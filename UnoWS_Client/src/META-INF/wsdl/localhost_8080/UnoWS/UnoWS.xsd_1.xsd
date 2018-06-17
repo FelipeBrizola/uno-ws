@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://uno.me.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://uno.me.org/">
+
+<xs:element name="compraCarta" type="tns:compraCarta"/>
+
+<xs:element name="compraCartaResponse" type="tns:compraCartaResponse"/>
+
+<xs:element name="ehMinhaVez" type="tns:ehMinhaVez"/>
+
+<xs:element name="ehMinhaVezResponse" type="tns:ehMinhaVezResponse"/>
+
+<xs:element name="encerraPartida" type="tns:encerraPartida"/>
+
+<xs:element name="encerraPartidaResponse" type="tns:encerraPartidaResponse"/>
+
+<xs:element name="hello" type="tns:hello"/>
+
+<xs:element name="helloResponse" type="tns:helloResponse"/>
+
+<xs:element name="jogaCarta" type="tns:jogaCarta"/>
+
+<xs:element name="jogaCartaResponse" type="tns:jogaCartaResponse"/>
+
+<xs:element name="mostraMao" type="tns:mostraMao"/>
+
+<xs:element name="mostraMaoResponse" type="tns:mostraMaoResponse"/>
+
+<xs:element name="obtemCartaMesa" type="tns:obtemCartaMesa"/>
+
+<xs:element name="obtemCartaMesaResponse" type="tns:obtemCartaMesaResponse"/>
+
+<xs:element name="obtemCorAtiva" type="tns:obtemCorAtiva"/>
+
+<xs:element name="obtemCorAtivaResponse" type="tns:obtemCorAtivaResponse"/>
+
+<xs:element name="obtemNumCartas" type="tns:obtemNumCartas"/>
+
+<xs:element name="obtemNumCartasBaralho" type="tns:obtemNumCartasBaralho"/>
+
+<xs:element name="obtemNumCartasBaralhoResponse" type="tns:obtemNumCartasBaralhoResponse"/>
+
+<xs:element name="obtemNumCartasOponente" type="tns:obtemNumCartasOponente"/>
+
+<xs:element name="obtemNumCartasOponenteResponse" type="tns:obtemNumCartasOponenteResponse"/>
+
+<xs:element name="obtemNumCartasResponse" type="tns:obtemNumCartasResponse"/>
+
+<xs:element name="obtemOponente" type="tns:obtemOponente"/>
+
+<xs:element name="obtemOponenteResponse" type="tns:obtemOponenteResponse"/>
+
+<xs:element name="obtemPontos" type="tns:obtemPontos"/>
+
+<xs:element name="obtemPontosOponente" type="tns:obtemPontosOponente"/>
+
+<xs:element name="obtemPontosOponenteResponse" type="tns:obtemPontosOponenteResponse"/>
+
+<xs:element name="obtemPontosResponse" type="tns:obtemPontosResponse"/>
+
+<xs:element name="preRegistro" type="tns:preRegistro"/>
+
+<xs:element name="preRegistroResponse" type="tns:preRegistroResponse"/>
+
+<xs:element name="registraJogador" type="tns:registraJogador"/>
+
+<xs:element name="registraJogadorResponse" type="tns:registraJogadorResponse"/>
+
+<xs:element name="removeClosedGames" type="tns:removeClosedGames"/>
+
+<xs:element name="removeClosedGamesResponse" type="tns:removeClosedGamesResponse"/>
+
+<xs:element name="sayHi" type="tns:sayHi"/>
+
+<xs:element name="sayHiResponse" type="tns:sayHiResponse"/>
+
+<xs:element name="temPartida" type="tns:temPartida"/>
+
+<xs:element name="temPartidaResponse" type="tns:temPartidaResponse"/>
+
+<xs:complexType name="obtemNumCartasOponente">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemNumCartasOponenteResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemCorAtiva">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemCorAtivaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sayHi">
+<xs:sequence>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sayHiResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="preRegistro">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:int"/>
+<xs:element name="arg2" type="xs:string" minOccurs="0"/>
+<xs:element name="arg3" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="preRegistroResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemOponente">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemOponenteResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeClosedGames">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="removeClosedGamesResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="encerraPartida">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="encerraPartidaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="registraJogador">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="registraJogadorResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="temPartida">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="temPartidaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemPontos">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemPontosResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ehMinhaVez">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ehMinhaVezResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemNumCartas">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemNumCartasResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="mostraMao">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="mostraMaoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemCartaMesa">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemCartaMesaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemNumCartasBaralho">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemNumCartasBaralhoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemPontosOponente">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemPontosOponenteResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="jogaCarta">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+<xs:element name="arg1" type="xs:int"/>
+<xs:element name="arg2" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="jogaCartaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hello">
+<xs:sequence>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="helloResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="compraCarta">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="compraCartaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
