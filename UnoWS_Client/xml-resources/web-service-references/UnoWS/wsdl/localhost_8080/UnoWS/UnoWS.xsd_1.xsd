@@ -12,10 +12,6 @@
 
 <xs:element name="encerraPartidaResponse" type="tns:encerraPartidaResponse"/>
 
-<xs:element name="hello" type="tns:hello"/>
-
-<xs:element name="helloResponse" type="tns:helloResponse"/>
-
 <xs:element name="jogaCarta" type="tns:jogaCarta"/>
 
 <xs:element name="jogaCartaResponse" type="tns:jogaCartaResponse"/>
@@ -68,10 +64,6 @@
 
 <xs:element name="removeClosedGamesResponse" type="tns:removeClosedGamesResponse"/>
 
-<xs:element name="sayHi" type="tns:sayHi"/>
-
-<xs:element name="sayHiResponse" type="tns:sayHiResponse"/>
-
 <xs:element name="temPartida" type="tns:temPartida"/>
 
 <xs:element name="temPartidaResponse" type="tns:temPartidaResponse"/>
@@ -97,18 +89,6 @@
 <xs:complexType name="obtemCorAtivaResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="sayHi">
-<xs:sequence>
-<xs:element name="name" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="sayHiResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -183,18 +163,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="obtemPontos">
-<xs:sequence>
-<xs:element name="arg0" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="obtemPontosResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="ehMinhaVez">
 <xs:sequence>
 <xs:element name="arg0" type="xs:int"/>
@@ -202,6 +170,18 @@
 </xs:complexType>
 
 <xs:complexType name="ehMinhaVezResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemPontos">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemPontosResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
 </xs:sequence>
@@ -231,18 +211,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="obtemCartaMesa">
-<xs:sequence>
-<xs:element name="arg0" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="obtemCartaMesaResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="obtemNumCartasBaralho">
 <xs:sequence>
 <xs:element name="arg0" type="xs:int"/>
@@ -252,6 +220,18 @@
 <xs:complexType name="obtemNumCartasBaralhoResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemCartaMesa">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtemCartaMesaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -278,18 +258,6 @@
 <xs:complexType name="jogaCartaResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="hello">
-<xs:sequence>
-<xs:element name="name" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="helloResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 

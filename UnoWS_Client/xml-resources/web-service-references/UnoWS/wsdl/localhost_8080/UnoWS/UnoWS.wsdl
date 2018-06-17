@@ -4,71 +4,11 @@
 <xsd:import namespace="http://uno.me.org/" schemaLocation="http://localhost:8080/UnoWS/UnoWS?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="hello">
-<part name="parameters" element="tns:hello"/>
+<message name="removeClosedGames">
+<part name="parameters" element="tns:removeClosedGames"/>
 </message>
-<message name="helloResponse">
-<part name="parameters" element="tns:helloResponse"/>
-</message>
-<message name="sayHi">
-<part name="parameters" element="tns:sayHi"/>
-</message>
-<message name="sayHiResponse">
-<part name="parameters" element="tns:sayHiResponse"/>
-</message>
-<message name="obtemCartaMesa">
-<part name="parameters" element="tns:obtemCartaMesa"/>
-</message>
-<message name="obtemCartaMesaResponse">
-<part name="parameters" element="tns:obtemCartaMesaResponse"/>
-</message>
-<message name="obtemNumCartasOponente">
-<part name="parameters" element="tns:obtemNumCartasOponente"/>
-</message>
-<message name="obtemNumCartasOponenteResponse">
-<part name="parameters" element="tns:obtemNumCartasOponenteResponse"/>
-</message>
-<message name="mostraMao">
-<part name="parameters" element="tns:mostraMao"/>
-</message>
-<message name="mostraMaoResponse">
-<part name="parameters" element="tns:mostraMaoResponse"/>
-</message>
-<message name="obtemPontos">
-<part name="parameters" element="tns:obtemPontos"/>
-</message>
-<message name="obtemPontosResponse">
-<part name="parameters" element="tns:obtemPontosResponse"/>
-</message>
-<message name="obtemNumCartas">
-<part name="parameters" element="tns:obtemNumCartas"/>
-</message>
-<message name="obtemNumCartasResponse">
-<part name="parameters" element="tns:obtemNumCartasResponse"/>
-</message>
-<message name="encerraPartida">
-<part name="parameters" element="tns:encerraPartida"/>
-</message>
-<message name="encerraPartidaResponse">
-<part name="parameters" element="tns:encerraPartidaResponse"/>
-</message>
-<message name="obtemNumCartasBaralho">
-<part name="parameters" element="tns:obtemNumCartasBaralho"/>
-</message>
-<message name="obtemNumCartasBaralhoResponse">
-<part name="parameters" element="tns:obtemNumCartasBaralhoResponse"/>
-</message>
-<message name="obtemPontosOponente">
-<part name="parameters" element="tns:obtemPontosOponente"/>
-</message>
-<message name="obtemPontosOponenteResponse">
-<part name="parameters" element="tns:obtemPontosOponenteResponse"/>
-</message>
-<message name="compraCarta">
-<part name="parameters" element="tns:compraCarta"/>
-</message>
-<message name="compraCartaResponse">
-<part name="parameters" element="tns:compraCartaResponse"/>
+<message name="removeClosedGamesResponse">
+<part name="parameters" element="tns:removeClosedGamesResponse"/>
 </message>
 <message name="preRegistro">
 <part name="parameters" element="tns:preRegistro"/>
@@ -76,29 +16,17 @@
 <message name="preRegistroResponse">
 <part name="parameters" element="tns:preRegistroResponse"/>
 </message>
-<message name="obtemCorAtiva">
-<part name="parameters" element="tns:obtemCorAtiva"/>
-</message>
-<message name="obtemCorAtivaResponse">
-<part name="parameters" element="tns:obtemCorAtivaResponse"/>
-</message>
 <message name="registraJogador">
 <part name="parameters" element="tns:registraJogador"/>
 </message>
 <message name="registraJogadorResponse">
 <part name="parameters" element="tns:registraJogadorResponse"/>
 </message>
-<message name="jogaCarta">
-<part name="parameters" element="tns:jogaCarta"/>
+<message name="encerraPartida">
+<part name="parameters" element="tns:encerraPartida"/>
 </message>
-<message name="jogaCartaResponse">
-<part name="parameters" element="tns:jogaCartaResponse"/>
-</message>
-<message name="removeClosedGames">
-<part name="parameters" element="tns:removeClosedGames"/>
-</message>
-<message name="removeClosedGamesResponse">
-<part name="parameters" element="tns:removeClosedGamesResponse"/>
+<message name="encerraPartidaResponse">
+<part name="parameters" element="tns:encerraPartidaResponse"/>
 </message>
 <message name="temPartida">
 <part name="parameters" element="tns:temPartida"/>
@@ -118,70 +46,82 @@
 <message name="ehMinhaVezResponse">
 <part name="parameters" element="tns:ehMinhaVezResponse"/>
 </message>
+<message name="obtemNumCartasBaralho">
+<part name="parameters" element="tns:obtemNumCartasBaralho"/>
+</message>
+<message name="obtemNumCartasBaralhoResponse">
+<part name="parameters" element="tns:obtemNumCartasBaralhoResponse"/>
+</message>
+<message name="obtemNumCartas">
+<part name="parameters" element="tns:obtemNumCartas"/>
+</message>
+<message name="obtemNumCartasResponse">
+<part name="parameters" element="tns:obtemNumCartasResponse"/>
+</message>
+<message name="obtemNumCartasOponente">
+<part name="parameters" element="tns:obtemNumCartasOponente"/>
+</message>
+<message name="obtemNumCartasOponenteResponse">
+<part name="parameters" element="tns:obtemNumCartasOponenteResponse"/>
+</message>
+<message name="mostraMao">
+<part name="parameters" element="tns:mostraMao"/>
+</message>
+<message name="mostraMaoResponse">
+<part name="parameters" element="tns:mostraMaoResponse"/>
+</message>
+<message name="obtemCorAtiva">
+<part name="parameters" element="tns:obtemCorAtiva"/>
+</message>
+<message name="obtemCorAtivaResponse">
+<part name="parameters" element="tns:obtemCorAtivaResponse"/>
+</message>
+<message name="obtemPontos">
+<part name="parameters" element="tns:obtemPontos"/>
+</message>
+<message name="obtemPontosResponse">
+<part name="parameters" element="tns:obtemPontosResponse"/>
+</message>
+<message name="obtemCartaMesa">
+<part name="parameters" element="tns:obtemCartaMesa"/>
+</message>
+<message name="obtemCartaMesaResponse">
+<part name="parameters" element="tns:obtemCartaMesaResponse"/>
+</message>
+<message name="compraCarta">
+<part name="parameters" element="tns:compraCarta"/>
+</message>
+<message name="compraCartaResponse">
+<part name="parameters" element="tns:compraCartaResponse"/>
+</message>
+<message name="obtemPontosOponente">
+<part name="parameters" element="tns:obtemPontosOponente"/>
+</message>
+<message name="obtemPontosOponenteResponse">
+<part name="parameters" element="tns:obtemPontosOponenteResponse"/>
+</message>
+<message name="jogaCarta">
+<part name="parameters" element="tns:jogaCarta"/>
+</message>
+<message name="jogaCartaResponse">
+<part name="parameters" element="tns:jogaCartaResponse"/>
+</message>
 <portType name="UnoWS">
-<operation name="hello">
-<input wsam:Action="http://uno.me.org/UnoWS/helloRequest" message="tns:hello"/>
-<output wsam:Action="http://uno.me.org/UnoWS/helloResponse" message="tns:helloResponse"/>
-</operation>
-<operation name="sayHi">
-<input wsam:Action="http://uno.me.org/UnoWS/sayHiRequest" message="tns:sayHi"/>
-<output wsam:Action="http://uno.me.org/UnoWS/sayHiResponse" message="tns:sayHiResponse"/>
-</operation>
-<operation name="obtemCartaMesa">
-<input wsam:Action="http://uno.me.org/UnoWS/obtemCartaMesaRequest" message="tns:obtemCartaMesa"/>
-<output wsam:Action="http://uno.me.org/UnoWS/obtemCartaMesaResponse" message="tns:obtemCartaMesaResponse"/>
-</operation>
-<operation name="obtemNumCartasOponente">
-<input wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasOponenteRequest" message="tns:obtemNumCartasOponente"/>
-<output wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasOponenteResponse" message="tns:obtemNumCartasOponenteResponse"/>
-</operation>
-<operation name="mostraMao">
-<input wsam:Action="http://uno.me.org/UnoWS/mostraMaoRequest" message="tns:mostraMao"/>
-<output wsam:Action="http://uno.me.org/UnoWS/mostraMaoResponse" message="tns:mostraMaoResponse"/>
-</operation>
-<operation name="obtemPontos">
-<input wsam:Action="http://uno.me.org/UnoWS/obtemPontosRequest" message="tns:obtemPontos"/>
-<output wsam:Action="http://uno.me.org/UnoWS/obtemPontosResponse" message="tns:obtemPontosResponse"/>
-</operation>
-<operation name="obtemNumCartas">
-<input wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasRequest" message="tns:obtemNumCartas"/>
-<output wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasResponse" message="tns:obtemNumCartasResponse"/>
-</operation>
-<operation name="encerraPartida">
-<input wsam:Action="http://uno.me.org/UnoWS/encerraPartidaRequest" message="tns:encerraPartida"/>
-<output wsam:Action="http://uno.me.org/UnoWS/encerraPartidaResponse" message="tns:encerraPartidaResponse"/>
-</operation>
-<operation name="obtemNumCartasBaralho">
-<input wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasBaralhoRequest" message="tns:obtemNumCartasBaralho"/>
-<output wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasBaralhoResponse" message="tns:obtemNumCartasBaralhoResponse"/>
-</operation>
-<operation name="obtemPontosOponente">
-<input wsam:Action="http://uno.me.org/UnoWS/obtemPontosOponenteRequest" message="tns:obtemPontosOponente"/>
-<output wsam:Action="http://uno.me.org/UnoWS/obtemPontosOponenteResponse" message="tns:obtemPontosOponenteResponse"/>
-</operation>
-<operation name="compraCarta">
-<input wsam:Action="http://uno.me.org/UnoWS/compraCartaRequest" message="tns:compraCarta"/>
-<output wsam:Action="http://uno.me.org/UnoWS/compraCartaResponse" message="tns:compraCartaResponse"/>
+<operation name="removeClosedGames">
+<input wsam:Action="http://uno.me.org/UnoWS/removeClosedGamesRequest" message="tns:removeClosedGames"/>
+<output wsam:Action="http://uno.me.org/UnoWS/removeClosedGamesResponse" message="tns:removeClosedGamesResponse"/>
 </operation>
 <operation name="preRegistro">
 <input wsam:Action="http://uno.me.org/UnoWS/preRegistroRequest" message="tns:preRegistro"/>
 <output wsam:Action="http://uno.me.org/UnoWS/preRegistroResponse" message="tns:preRegistroResponse"/>
 </operation>
-<operation name="obtemCorAtiva">
-<input wsam:Action="http://uno.me.org/UnoWS/obtemCorAtivaRequest" message="tns:obtemCorAtiva"/>
-<output wsam:Action="http://uno.me.org/UnoWS/obtemCorAtivaResponse" message="tns:obtemCorAtivaResponse"/>
-</operation>
 <operation name="registraJogador">
 <input wsam:Action="http://uno.me.org/UnoWS/registraJogadorRequest" message="tns:registraJogador"/>
 <output wsam:Action="http://uno.me.org/UnoWS/registraJogadorResponse" message="tns:registraJogadorResponse"/>
 </operation>
-<operation name="jogaCarta">
-<input wsam:Action="http://uno.me.org/UnoWS/jogaCartaRequest" message="tns:jogaCarta"/>
-<output wsam:Action="http://uno.me.org/UnoWS/jogaCartaResponse" message="tns:jogaCartaResponse"/>
-</operation>
-<operation name="removeClosedGames">
-<input wsam:Action="http://uno.me.org/UnoWS/removeClosedGamesRequest" message="tns:removeClosedGames"/>
-<output wsam:Action="http://uno.me.org/UnoWS/removeClosedGamesResponse" message="tns:removeClosedGamesResponse"/>
+<operation name="encerraPartida">
+<input wsam:Action="http://uno.me.org/UnoWS/encerraPartidaRequest" message="tns:encerraPartida"/>
+<output wsam:Action="http://uno.me.org/UnoWS/encerraPartidaResponse" message="tns:encerraPartidaResponse"/>
 </operation>
 <operation name="temPartida">
 <input wsam:Action="http://uno.me.org/UnoWS/temPartidaRequest" message="tns:temPartida"/>
@@ -195,100 +135,50 @@
 <input wsam:Action="http://uno.me.org/UnoWS/ehMinhaVezRequest" message="tns:ehMinhaVez"/>
 <output wsam:Action="http://uno.me.org/UnoWS/ehMinhaVezResponse" message="tns:ehMinhaVezResponse"/>
 </operation>
+<operation name="obtemNumCartasBaralho">
+<input wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasBaralhoRequest" message="tns:obtemNumCartasBaralho"/>
+<output wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasBaralhoResponse" message="tns:obtemNumCartasBaralhoResponse"/>
+</operation>
+<operation name="obtemNumCartas">
+<input wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasRequest" message="tns:obtemNumCartas"/>
+<output wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasResponse" message="tns:obtemNumCartasResponse"/>
+</operation>
+<operation name="obtemNumCartasOponente">
+<input wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasOponenteRequest" message="tns:obtemNumCartasOponente"/>
+<output wsam:Action="http://uno.me.org/UnoWS/obtemNumCartasOponenteResponse" message="tns:obtemNumCartasOponenteResponse"/>
+</operation>
+<operation name="mostraMao">
+<input wsam:Action="http://uno.me.org/UnoWS/mostraMaoRequest" message="tns:mostraMao"/>
+<output wsam:Action="http://uno.me.org/UnoWS/mostraMaoResponse" message="tns:mostraMaoResponse"/>
+</operation>
+<operation name="obtemCorAtiva">
+<input wsam:Action="http://uno.me.org/UnoWS/obtemCorAtivaRequest" message="tns:obtemCorAtiva"/>
+<output wsam:Action="http://uno.me.org/UnoWS/obtemCorAtivaResponse" message="tns:obtemCorAtivaResponse"/>
+</operation>
+<operation name="obtemPontos">
+<input wsam:Action="http://uno.me.org/UnoWS/obtemPontosRequest" message="tns:obtemPontos"/>
+<output wsam:Action="http://uno.me.org/UnoWS/obtemPontosResponse" message="tns:obtemPontosResponse"/>
+</operation>
+<operation name="obtemCartaMesa">
+<input wsam:Action="http://uno.me.org/UnoWS/obtemCartaMesaRequest" message="tns:obtemCartaMesa"/>
+<output wsam:Action="http://uno.me.org/UnoWS/obtemCartaMesaResponse" message="tns:obtemCartaMesaResponse"/>
+</operation>
+<operation name="compraCarta">
+<input wsam:Action="http://uno.me.org/UnoWS/compraCartaRequest" message="tns:compraCarta"/>
+<output wsam:Action="http://uno.me.org/UnoWS/compraCartaResponse" message="tns:compraCartaResponse"/>
+</operation>
+<operation name="obtemPontosOponente">
+<input wsam:Action="http://uno.me.org/UnoWS/obtemPontosOponenteRequest" message="tns:obtemPontosOponente"/>
+<output wsam:Action="http://uno.me.org/UnoWS/obtemPontosOponenteResponse" message="tns:obtemPontosOponenteResponse"/>
+</operation>
+<operation name="jogaCarta">
+<input wsam:Action="http://uno.me.org/UnoWS/jogaCartaRequest" message="tns:jogaCarta"/>
+<output wsam:Action="http://uno.me.org/UnoWS/jogaCartaResponse" message="tns:jogaCartaResponse"/>
+</operation>
 </portType>
 <binding name="UnoWSPortBinding" type="tns:UnoWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="hello">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="sayHi">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="obtemCartaMesa">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="obtemNumCartasOponente">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="mostraMao">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="obtemPontos">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="obtemNumCartas">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="encerraPartida">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="obtemNumCartasBaralho">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="obtemPontosOponente">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="compraCarta">
+<operation name="removeClosedGames">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -306,15 +196,6 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="obtemCorAtiva">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="registraJogador">
 <soap:operation soapAction=""/>
 <input>
@@ -324,16 +205,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="jogaCarta">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="removeClosedGames">
+<operation name="encerraPartida">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -361,6 +233,96 @@
 </output>
 </operation>
 <operation name="ehMinhaVez">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="obtemNumCartasBaralho">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="obtemNumCartas">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="obtemNumCartasOponente">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="mostraMao">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="obtemCorAtiva">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="obtemPontos">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="obtemCartaMesa">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="compraCarta">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="obtemPontosOponente">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="jogaCarta">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

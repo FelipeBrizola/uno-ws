@@ -5,6 +5,7 @@
  */
 package org.me.uno;
 
+import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -138,11 +139,11 @@ public class UnoWS implements IUno{
             return 0;
         }
 
-        if (playedCard.getType() == TypeCard.JOKER) {
+        if (playedCard.getType() == TypeCard.Cg) {
             return 3;
         }
 
-        if (playedCard.getType() == TypeCard.JOKER_4) {
+        if (playedCard.getType() == TypeCard.C4) {
             return 4;
         }
 
@@ -151,12 +152,12 @@ public class UnoWS implements IUno{
             if (playedCard.getNumber() == -1 && ((tableCard.getColor() == playedCard.getColor())
                     || (tableCard.getType() == playedCard.getType()))) {
                 switch (playedCard.getType()) {
-                    case MORE_2:
+                    case M2:
                         return 2;
 
-                    case SKIP:
+                    case Pu:
                         return 1;
-                    case REVERSE:
+                    case In:
                         return 1;
 
                     default:
@@ -173,23 +174,7 @@ public class UnoWS implements IUno{
 
         return -1;
     }
-    
-    /**
-     * This is a sample web service operation
-     */
-
-    public String hello(@WebParam(name = "name") String txt) {
-        return "Hello " + txt + " !";
-    }
-
-    /**
-     * Web service operation
-     */
-    @WebMethod(operationName = "sayHi")
-    public String sayHi(@WebParam(name = "name") final String name) {
-        return "Hi " + name + "!";
-    }
-    
+        
     @Override
     public int preRegistro(String playerNameOne, int playerOneId, String playerNameTwo, int playerTwoId) {
         preRegister.put(playerNameOne, playerOneId + ";" + playerTwoId);
@@ -200,8 +185,9 @@ public class UnoWS implements IUno{
 
     @Override
     public int registraJogador(String playerName) throws RemoteException {
-        String id = "";
+       String id = "";
         Game game = null;
+        Player newPlayer = null;
         
         if(preRegister.containsKey(playerName)) {
             id = preRegister.get(playerName);
@@ -209,13 +195,23 @@ public class UnoWS implements IUno{
             preRegister.remove(playerName);
             
             game = getGameByPlayerId(Integer.parseInt(id.split(";")[1]));
+            newPlayer = new Player(playerName, Integer.parseInt(id.split(";")[0]));
             
-            if (game == null)
-                games.add(new Game(new Player(playerName, Integer.parseInt(id.split(";")[0]))));
-            else
-                game.addOpponent(new Player(playerName, Integer.parseInt(id.split(";")[0])));
+            if (game == null) {
+                game = new Game(newPlayer);
+                game.watchGameTimer();
+                games.add(game);
+            }
+                
+            else {
+                game.addOpponent(newPlayer);
+                game.watchTurnTimer();
+            }
+                
             
-            return Integer.parseInt(id.split(";")[0]);
+            playersPool.add(newPlayer);
+            
+            return newPlayer.getId();
         }
         
         if (playersPool.size() > MAX_PLAYERS) {
@@ -227,9 +223,9 @@ public class UnoWS implements IUno{
                 return -1;
             
         }
-
+        
         // id do jogador sera o indice da lista
-        Player newPlayer = new Player(playerName, playersPool.size());
+        newPlayer = new Player(playerName, playersPool.size());
 
         try {
             game = allocatesPlayer(newPlayer);
@@ -409,8 +405,20 @@ public class UnoWS implements IUno{
 
     @Override
     public String mostraMao(int playerId) throws RemoteException {
+        String deckStr = "";
+        Stack<Card> deck = null;
+        
         Game game = this.getGameByPlayerId(playerId);
-        return game.getPlayerByPlayerId(playerId).showDeck();
+        deck = game.getPlayerByPlayerId(playerId).getDeck();
+        
+        for(int i = 0; i < deck.size(); i += 1) {
+            if (i == deck.size())
+                deckStr += Helper.cardToString(deck.get(i));
+            else
+                deckStr += Helper.cardToString(deck.get(i)) + "|";
+                
+        }
+        return deckStr;
     }
 
     @Override
@@ -461,6 +469,9 @@ public class UnoWS implements IUno{
             Stack<Card> playerDeck = player.getDeck();
             playerDeck.push(card);
             player.setDeck(playerDeck);
+            
+            // troca a vez apos compra de carta
+            game.setTurnPlayer();
             return 0;
         } catch (Exception e) {
             return -1;
@@ -490,91 +501,98 @@ public class UnoWS implements IUno{
 
     @Override
     public int jogaCarta(int playerId, int index, int cardColor) throws RemoteException {
-        Game game = this.getGameByPlayerId(playerId);
+        
+        try {
+        
+            Game game = this.getGameByPlayerId(playerId);
 
-        // set do time da jogada
-        game.getPlayerByPlayerId(playerId).setTurnTime(System.currentTimeMillis());
+            // set do time da jogada
+            game.getPlayerByPlayerId(playerId).setTurnTime(System.currentTimeMillis());
 
-        // troca a vez do jogador
-        if (index == -1) {
-            this.getGameByPlayerId(playerId).setTurnPlayer();
-            return 1;
+            // troca a vez do jogador
+//            if (index == -1) {
+//                this.getGameByPlayerId(playerId).setTurnPlayer();
+//                return 1;
+//            }
+
+            // algum jogador nao encontrado
+            if (game.getPlayerByPlayerId(playerId) == null || game.getOpponentByPlayerId(playerId) == null) {
+                return -1;
+            }
+
+            // parametros invalidos - indice do baralho
+            if (index < -1 || index > this.obtemNumCartas(playerId)) {
+                return -3;
+            }
+
+            // parametros invalidos - cor inexistente
+            if (cardColor < -2 || cardColor > 3) {
+                return -3;
+            }
+
+            // nao é vez do jogador ainda
+            if (!game.getPlayerByPlayerId(playerId).getIsMyTurn()) {
+                return -4;
+            }
+
+            Card tableCard = Helper.stringToCard(this.obtemCartaMesa(playerId));
+            Card playedCard = this.getGameByPlayerId(playerId).getPlayerByPlayerId(playerId).getDeck().get(index);
+
+            Player player = null;
+
+            // seta cor ativa
+            if (cardColor != -1) {
+                game.setActiveColor(cardColor);
+            }
+
+            switch (this.match(playedCard, tableCard, playerId)) {
+                // erro
+                case -1:
+                    return 0;
+                // jogada normal
+                case 0:
+                    this.playCardFull(playerId, index, playedCard);
+                    this.getGameByPlayerId(playerId).setTurnPlayer();
+                    game.setActiveColor(-1);
+                    break;
+                // pular e inverter
+                case 1:
+                    this.playCardFull(playerId, index, playedCard);
+                    game.setActiveColor(-1);
+                    break;
+                case 2:
+                    // +2
+                    // adversario compra 2 cartas e turno nao é trocado.
+                    this.playCardFull(playerId, index, playedCard);
+
+                    player = game.getOpponentByPlayerId(playerId);
+                    this.compraCarta(player.getId());
+                    this.compraCarta(player.getId());
+                    game.setActiveColor(-1);
+                    break;
+                case 3:
+                    // coringa
+                    this.playCardFull(playerId, index, playedCard);
+                    this.getGameByPlayerId(playerId).setTurnPlayer();
+                    break;
+                case 4:
+                    // coringa +4
+                    player = game.getOpponentByPlayerId(playerId);
+                    this.compraCarta(player.getId());
+                    this.compraCarta(player.getId());
+                    this.compraCarta(player.getId());
+                    this.compraCarta(player.getId());
+                    this.getGameByPlayerId(playerId).setTurnPlayer();
+                    break;
+
+                default:
+                    break;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        // algum jogador nao encontrado
-        if (game.getPlayerByPlayerId(playerId) == null || game.getOpponentByPlayerId(playerId) == null) {
-            return -1;
-        }
-
-        // parametros invalidos - indice do baralho
-        if (index < -1 || index > this.obtemNumCartas(playerId)) {
-            return -3;
-        }
-
-        // parametros invalidos - cor inexistente
-        if (cardColor < -2 || cardColor > 3) {
-            return -3;
-        }
-
-        // nao é vez do jogador ainda
-        if (!game.getPlayerByPlayerId(playerId).getIsMyTurn()) {
-            return -4;
-        }
-
-        Card tableCard = Helper.stringToCard(this.obtemCartaMesa(playerId));
-        Card playedCard = this.getGameByPlayerId(playerId).getPlayerByPlayerId(playerId).getDeck().get(index);
-
-        Player player = null;
-
-        // seta cor ativa
-        if (cardColor != -1) {
-            game.setActiveColor(cardColor);
-        }
-
-        switch (this.match(playedCard, tableCard, playerId)) {
-            // erro
-            case -1:
-                return 0;
-            // jogada normal
-            case 0:
-                this.playCardFull(playerId, index, playedCard);
-                this.getGameByPlayerId(playerId).setTurnPlayer();
-                game.setActiveColor(-1);
-                break;
-            // pular e inverter
-            case 1:
-                this.playCardFull(playerId, index, playedCard);
-                game.setActiveColor(-1);
-                break;
-            case 2:
-                // +2
-                // adversario compra 2 cartas e turno nao é trocado.
-                this.playCardFull(playerId, index, playedCard);
-
-                player = game.getOpponentByPlayerId(playerId);
-                this.compraCarta(player.getId());
-                this.compraCarta(player.getId());
-                game.setActiveColor(-1);
-                break;
-            case 3:
-                // coringa
-                this.playCardFull(playerId, index, playedCard);
-                this.getGameByPlayerId(playerId).setTurnPlayer();
-                break;
-            case 4:
-                // coringa +4
-                player = game.getOpponentByPlayerId(playerId);
-                this.compraCarta(player.getId());
-                this.compraCarta(player.getId());
-                this.compraCarta(player.getId());
-                this.compraCarta(player.getId());
-                this.getGameByPlayerId(playerId).setTurnPlayer();
-                break;
-
-            default:
-                break;
-        }
-
+        
         return 1;
 
     }

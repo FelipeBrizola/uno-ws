@@ -11,7 +11,7 @@ package org.me.uno;
  */
 public enum TypeCard {
 
-    JOKER(1), JOKER_4(2), SKIP(3), REVERSE(4), MORE_2(5);
+    Cg(1), C4(2), Pu(3), In(4), M2(5);
 
     private final int value;
 

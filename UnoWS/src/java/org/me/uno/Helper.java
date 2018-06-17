@@ -40,15 +40,6 @@ public class Helper {
         return true;
     }
 
-    public static String playWithJoker(Scanner scanner) {
-        System.out.println("Selecione o Id da proxima cor ativa: ");
-        System.out.println("Id: 0  | BLUE");
-        System.out.println("Id: 1  | YELLOW");
-        System.out.println("Id: 2  | GREEN");
-        System.out.println("Id: 3  | RED");
-        return scanner.nextLine();
-    }
-
     public static String cardToString(Card card) {
 
         if (card.getColor() != null && card.getNumber() != -1 && card.getType() == null) {
@@ -89,10 +80,10 @@ public class Helper {
 
         for (Card card : deck) {
 
-            if (card.getType() == TypeCard.JOKER || card.getType() == TypeCard.JOKER_4) {
+            if (card.getType() == TypeCard.Cg || card.getType() == TypeCard.C4) {
                 sum += 50;
-            } else if (card.getType() == TypeCard.MORE_2 || card.getType() == TypeCard.SKIP
-                    || card.getType() == TypeCard.REVERSE) {
+            } else if (card.getType() == TypeCard.M2 || card.getType() == TypeCard.Pu
+                    || card.getType() == TypeCard.In) {
                 sum += 20;
             } else {
                 sum += card.getNumber();

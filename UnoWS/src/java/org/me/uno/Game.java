@@ -47,17 +47,25 @@ public class Game {
     private Stack<Card> toShuffleCards(Stack<Card> deck) {
         int playerOneId = players.get(0).getId();
         int playerTwoId = players.get(1).getId();
-        Stack<Card> newDeck = new Stack<>();
 
         Random generator = new Random(playerOneId + playerTwoId);
 
-        while (deck.size() > 0) {
-            int randonIndex = generator.nextInt(deck.size());
-            newDeck.push(deck.get(randonIndex));
-            deck.remove(randonIndex);
+        for(int i = 0; i < 108; ++i) {
+            int outra = generator.nextInt(108);
+            Card aux = deck.get(i);
+            deck.set(i, deck.get(outra));
+            deck.set(outra, aux);
         }
-
-        this.deck = newDeck;
+        
+        for (int i = 0; i < 108 * 108; i++) {
+            int c1 = generator.nextInt(108);
+            int c2 = generator.nextInt(108);
+            
+            Card aux = deck.get(c1);
+            
+            deck.set(c1, deck.get(c2));
+            deck.set(c2, aux);
+        }
 
         return this.deck;
 
@@ -79,9 +87,9 @@ public class Game {
 
             // cartas especiais
             for (int j = 0; j < 2; j += 1) {
-                deck.push(new Card(color, TypeCard.SKIP, -1));
-                deck.push(new Card(color, TypeCard.REVERSE, -1));
-                deck.push(new Card(color, TypeCard.MORE_2, -1));
+                deck.push(new Card(color, TypeCard.Pu, -1));
+                deck.push(new Card(color, TypeCard.In, -1));
+                deck.push(new Card(color, TypeCard.M2, -1));
 
             }
 
@@ -89,8 +97,8 @@ public class Game {
 
         for (int i = 0; i < 4; i += 1) {
             // coringas
-            deck.push(new Card(null, TypeCard.JOKER, -1));
-            deck.push(new Card(null, TypeCard.JOKER_4, -1));
+            deck.push(new Card(null, TypeCard.Cg, -1));
+            deck.push(new Card(null, TypeCard.C4, -1));
         }
 
         return deck;
