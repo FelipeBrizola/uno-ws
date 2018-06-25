@@ -331,6 +331,21 @@ public class UnoWS implements IUno{
             if (game.getPlayers().size() != 2) {
                 return -2;
             }
+            
+            if (game.getDeck().isEmpty()) {
+                
+                Player p1 = game.getPlayerByPlayerId(playerId);
+                Player p2 = game.getOpponentByPlayerId(playerId);
+                
+                if (p1.getSum() < p2.getSum())
+                    return 3;
+                
+                if (p1.getSum() > p2.getSum())
+                    return 2;
+                
+                if (p1.getSum() == p2.getSum())
+                    return 4;
+            }
 
             // vencedor
             if (game.getPlayerByPlayerId(playerId).getDeck().isEmpty()) {
@@ -338,13 +353,14 @@ public class UnoWS implements IUno{
                 game.setStatus(GameStatus.CLOSED);
                 return 2;
             } // perdedor
-            else if (this.obtemNumCartasOponente(playerId) == 0) {
+            else if (game.getOpponentByPlayerId(playerId).getDeck().isEmpty()) {
                 game.setClosedTimer(System.currentTimeMillis());
                 game.setStatus(GameStatus.CLOSED);
                 return 3;
             } // jogadores ainda tem cartas, mas baralho de compra acabou
-            else if (this.obtemNumCartas(playerId) > 0 && this.obtemNumCartasOponente(playerId) > 0
-                    && this.obtemNumCartasBaralho(playerId) == 0) {
+            else if (!game.getPlayerByPlayerId(playerId).getDeck().isEmpty() 
+                    && !game.getOpponentByPlayerId(playerId).getDeck().isEmpty()
+                    && game.getDeck().isEmpty()) {
                 game.setClosedTimer(System.currentTimeMillis());
                 game.setStatus(GameStatus.CLOSED);
                 return 4;
@@ -492,6 +508,9 @@ public class UnoWS implements IUno{
             playerDeck.push(card);
             player.setDeck(playerDeck);
             
+            if (game.getDeck().isEmpty())
+                computeWinner(game);
+            
             // troca a vez apos compra de carta
             game.setTurnPlayer();
             return 1;
@@ -631,9 +650,24 @@ public class UnoWS implements IUno{
             Stack<Card> playerDeck = player.getDeck();
             playerDeck.push(card);
             player.setDeck(playerDeck);
+            
+            if (game.getDeck().isEmpty())
+                computeWinner(game);
+
         } catch (Exception e) {
         }
 
+    }
+    
+    private void computeWinner(Game game) {
+        
+        
+        int p1Score = Helper.sumScore(game.getPlayers().get(0).getDeck());
+        int p2Score = Helper.sumScore(game.getPlayers().get(1).getDeck());
+        
+        game.getPlayers().get(0).setSum(p1Score);
+        game.getPlayers().get(1).setSum(p2Score);
+        
     }
 
 }

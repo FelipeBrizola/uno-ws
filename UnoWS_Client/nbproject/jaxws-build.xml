@@ -33,22 +33,5 @@
         <delete dir="${build.generated.dir}/jax-wsCache/UnoWS"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/org/me/uno"/>
     </target>
-    <target name="wsimport-client-UnoWS_1" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/UnoWS_1"/>
-        <property name="wsdl-UnoWS_1" location="xml-resources/web-service-references/UnoWS_1/wsdl/localhost_8080/UnoWS/UnoWS.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/UnoWS_1" destdir="${build.generated.dir}/jax-wsCache/UnoWS_1" wsdl="${wsdl-UnoWS_1}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/UnoWS/UnoWS?wsdl" xnocompile="true" xendorsed="true">
-            <depends file="${wsdl-UnoWS_1}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/UnoWS_1"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/UnoWS_1">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-UnoWS_1" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/UnoWS_1"/>
-        <delete dir="${build.generated.sources.dir}/jax-ws/org/me/uno"/>
-    </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-UnoWS, wsimport-client-UnoWS_1"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-UnoWS"/>
 </project>

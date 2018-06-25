@@ -18,12 +18,23 @@ public class Player {
     private boolean isMyTurn;
     private Stack<Card> deck;
     private long turnTime;
+    
+    private int sum = 0;
+   
 
     public Player(String name, int id) {
         this.name = name;
         this.isMyTurn = false;
         this.id = id;
         this.setDeck(new Stack<>());
+    }
+    
+    public void setSum(int value) {
+        sum = value;
+    }
+    
+    public int getSum() {
+        return sum;
     }
 
     public String getName() {

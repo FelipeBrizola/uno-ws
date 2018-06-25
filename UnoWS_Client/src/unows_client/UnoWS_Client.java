@@ -46,10 +46,14 @@ public class UnoWS_Client {
      */
     public static void main(String[] args) { 
         
-        String rootPath = "C:\\Users\\Eduardo\\Documents\\projects\\uno-ws\\UnoWS_Client\\src\\unows_client\\";
+        String rootPath = "/home/kbase/Documentos/projects/uno-ws/UnoWS_Client/src/unows_client/";
         
         if (args.length == 0)
-            args = new String[]{ rootPath + "Uno-2000", rootPath + "Uno-3000" };
+            args = new String[]{
+                rootPath + "Uno-1000",
+                rootPath + "Uno-2000",
+                rootPath + "Uno-3000"
+            };
         
         int numTestes = args.length;
         
@@ -99,8 +103,8 @@ public class UnoWS_Client {
               String parametros = in.next();
               String param[] = parametros.split(":",-1);
               
-//              if (i == 45575)
-//                  System.err.println("");
+            //   if (i == 45576)
+            //       System.err.println("");
               
               switch(op) {
                   case 0:
