@@ -11,7 +11,7 @@ package org.me.uno;
  */
 public enum ColorCard {
 
-    Az(0), Vd(2), Vm(3), Am(1);
+    Az(0), Am(1), Vd(2), Vm(3);
 
     private final int value;
 
@@ -22,22 +22,5 @@ public enum ColorCard {
     public int getValue() {
         return this.value;
     }
-
-    public ColorCard getValue(int key) {
-        switch (key) {
-            case 0:
-                return Az;
-            case 1:
-                return Am;
-            case 2:
-                return Vd;
-
-            case 3:
-                return Vm;
-
-            default:
-                break;
-        }
-        return null;
-    }
+    
 }

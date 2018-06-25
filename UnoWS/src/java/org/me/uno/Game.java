@@ -70,6 +70,14 @@ public class Game {
         return this.deck;
 
     }
+    
+    int playersLeft = 0;
+    public void removePlayer (int playerId) {
+        playersLeft++;
+        
+        if (playersLeft == 2)
+            status = GameStatus.EXCLUDED;
+    }
 
     private Stack<Card> createDeck() {
 
@@ -88,9 +96,12 @@ public class Game {
             // cartas especiais
             for (int j = 0; j < 2; j += 1) {
                 deck.push(new Card(color, TypeCard.Pu, -1));
+            }
+            for (int j = 0; j < 2; j += 1) {
                 deck.push(new Card(color, TypeCard.In, -1));
+            }
+            for (int j = 0; j < 2; j += 1) {
                 deck.push(new Card(color, TypeCard.M2, -1));
-
             }
 
         }
@@ -98,21 +109,48 @@ public class Game {
         for (int i = 0; i < 4; i += 1) {
             // coringas
             deck.push(new Card(null, TypeCard.Cg, -1));
+        }
+        for (int i = 0; i < 4; i += 1) {
+            // coringas
             deck.push(new Card(null, TypeCard.C4, -1));
         }
+        
+        
+        
 
         return deck;
 
     }
+    
+//    public void setChanged(boolean value) {
+//        changed = value;
+//    }
+    
+    boolean changed = false;
+    public void setChanged(boolean value) {
+        changed = true;
+    }
+    
+    public void changeTurnPlayers () {
+        if (changed)
+            return;
+        
+        setTurnPlayer();
+        changed = true;
+    }
+           
 
     public Game(Player playerOne) {
         this.status = GameStatus.WAITING;
+        playerOne.setIsMyTurn(true);
         this.players.add(playerOne);
         this.activeColor = -1;
 
     }
 
     public void addOpponent(Player opponent) {
+        opponent.setIsMyTurn(false);
+               
         this.players.add(opponent);
 
         Stack<Card> deck = createDeck();
@@ -182,7 +220,11 @@ public class Game {
     }
 
     public int getActiveColor() {
-        return activeColor;
+        
+        if (activeColor != -1)
+            return activeColor;
+        
+        return tableDeck.peek().getColor().getValue();
     }
 
     public void setActiveColor(int activeColor) {
@@ -206,57 +248,57 @@ public class Game {
     }
 
     // tempo de cada jogada
-    public Thread watchTurnTimer() {
-        Thread t = new Thread() {
-            public void run() {
-                try {
-                    while (true) {
-
-                        Thread.sleep(60000);
-
-                        long now = System.currentTimeMillis();
-
-                        for (Player p : players) {
-                            if ((now - p.getTurnTime()) > 60000) {
-                                if (p.getIsMyTurn()) {
-                                    woPlayers[0] = p.getId(); // perdedor. 
-                                    woPlayers[1] = getOpponentByPlayerId(p.getId()).getId();//  vencedor
-                                }
-                            }
-                        }
-
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        t.start();
-
-        return t;
-
-    }
+//    public Thread watchTurnTimer() {
+//        Thread t = new Thread() {
+//            public void run() {
+//                try {
+//                    while (true) {
+//
+//                        Thread.sleep(60000);
+//
+//                        long now = System.currentTimeMillis();
+//
+//                        for (Player p : players) {
+//                            if ((now - p.getTurnTime()) > 60000) {
+//                                if (p.getIsMyTurn()) {
+//                                    woPlayers[0] = p.getId(); // perdedor. 
+//                                    woPlayers[1] = getOpponentByPlayerId(p.getId()).getId();//  vencedor
+//                                }
+//                            }
+//                        }
+//
+//                    }
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//
+//        t.start();
+//
+//        return t;
+//
+//    }
 
     // tempo para timeout de partida com um jogador
-    public synchronized void watchGameTimer() {
-        new Thread() {
-            public void run() {
-                try {
-                    while (true) {
-
-                        Thread.sleep(120000);
-
-                        if (status == GameStatus.WAITING) {
-                            status = GameStatus.TIMEOUT;
-                        }
-
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
+//    public synchronized void watchGameTimer() {
+//        new Thread() {
+//            public void run() {
+//                try {
+//                    while (true) {
+//
+//                        Thread.sleep(120000);
+//
+//                        if (status == GameStatus.WAITING) {
+//                            status = GameStatus.TIMEOUT;
+//                        }
+//
+//                    }
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }.start();
+//    }
 
 }

@@ -11,7 +11,8 @@ package org.me.uno;
  */
 public enum TypeCard {
 
-    Cg(1), C4(2), Pu(3), In(4), M2(5);
+    //PULA, INVERTE, +2, coringa, coring+4;
+    Pu(1), In(2), M2(3), Cg(4), C4(5);
 
     private final int value;
 
@@ -23,5 +24,5 @@ public enum TypeCard {
         return this.value;
     }
 
-    // JOKER, JOKER_4, SKIP, REVERSE, MORE_2;
+    
 }

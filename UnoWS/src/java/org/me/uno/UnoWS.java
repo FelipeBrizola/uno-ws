@@ -5,14 +5,11 @@
  */
 package org.me.uno;
 
-import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 import javax.jws.WebService;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
 
 /**
  *
@@ -26,7 +23,6 @@ public class UnoWS implements IUno{
     private ArrayList<Game> games = new ArrayList<>();
     
     private final HashMap<String, String> preRegister = new HashMap<>();
-
     
     private synchronized Game getGameByPlayerId(int playerId) {
 
@@ -42,35 +38,14 @@ public class UnoWS implements IUno{
     }
 
     public synchronized void removeClosedGames() {
-        new Thread() {
-            public void run() {
-                try {
-                    while (true) {
-
-                        // 1 min p destruir partida
-                        Thread.sleep(60000);
-                        long now = System.currentTimeMillis();
-
-                        System.out.println("ROTINA PARA REMOVER JOGOS FINALIZADOS");
-
-                        for (int i = 0; i < games.size(); i += 1) {
-                            if ((games.get(i).getStatus() == GameStatus.CLOSED)
-                                    && (now - games.get(i).getClosedTimer() > 20000)) {
-                                removePlayersFromPlayerPool();
-                                games.remove(i);
-                                System.out.println("JOGO REMOVIDO");
-                            }
-                        }
-
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        for (int i = 0; i < games.size(); i += 1) {
+            if (games.get(i).getStatus() == GameStatus.EXCLUDED) {
+                games.remove(i);
             }
-        }.start();
+        }
     }
 
-    private void removePlayersFromPlayerPool() {
+    private synchronized void removePlayersFromPlayerPool() {
         for (int i = 0; i < playersPool.size(); i += 1) {
             for (Player player : games.get(i).getPlayers()) {
                 if (player.getId() == playersPool.get(i).getId()) {
@@ -106,7 +81,7 @@ public class UnoWS implements IUno{
                     System.out.println("ADICIONANDO " + newPlayer.getId() + "A PARTIDA");
                     game.addOpponent(newPlayer);
                     wasAllocated = true;
-                    game.watchTurnTimer();
+
                     break;
                 }
 
@@ -117,7 +92,6 @@ public class UnoWS implements IUno{
         if (!wasAllocated) {
             System.out.println("NOVA PARTIDA: " + newPlayer.getId());
             Game game = new Game(newPlayer);
-            game.watchGameTimer();
             return game;
         }
 
@@ -134,11 +108,6 @@ public class UnoWS implements IUno{
 
     private int match(Card playedCard, Card tableCard, int playerId) {
 
-        if ((playedCard.getColor() != null)
-                && this.getGameByPlayerId(playerId).getActiveColor() == playedCard.getColor().getValue()) {
-            return 0;
-        }
-
         if (playedCard.getType() == TypeCard.Cg) {
             return 3;
         }
@@ -146,15 +115,20 @@ public class UnoWS implements IUno{
         if (playedCard.getType() == TypeCard.C4) {
             return 4;
         }
-
+        
+        if (tableCard.getType() != null && playedCard.getType() != null) {
+            
+            if (tableCard.getType() != playedCard.getType() && this.getGameByPlayerId(playerId).getActiveColor() != playedCard.getColor().getValue())
+                return -1;
+        }
+        
         if (playedCard.getType() != null) {
 
-            if (playedCard.getNumber() == -1 && ((tableCard.getColor() == playedCard.getColor())
+            if (playedCard.getNumber() == -1 && ((this.getGameByPlayerId(playerId).getActiveColor() == playedCard.getColor().getValue())
                     || (tableCard.getType() == playedCard.getType()))) {
                 switch (playedCard.getType()) {
                     case M2:
                         return 2;
-
                     case Pu:
                         return 1;
                     case In:
@@ -166,6 +140,11 @@ public class UnoWS implements IUno{
             }
 
             return -1;
+        }
+        
+        if ((playedCard.getColor() != null)
+                && this.getGameByPlayerId(playerId).getActiveColor() == playedCard.getColor().getValue()) {
+            return 0;
         }
 
         if ((tableCard.getColor() == playedCard.getColor()) || (tableCard.getNumber() == playedCard.getNumber())) {
@@ -184,7 +163,7 @@ public class UnoWS implements IUno{
     }
 
     @Override
-    public int registraJogador(String playerName) throws RemoteException {
+    public synchronized int registraJogador(String playerName) throws RemoteException {
        String id = "";
         Game game = null;
         Player newPlayer = null;
@@ -199,16 +178,33 @@ public class UnoWS implements IUno{
             
             if (game == null) {
                 game = new Game(newPlayer);
-                game.watchGameTimer();
                 games.add(game);
             }
                 
             else {
                 game.addOpponent(newPlayer);
-                game.watchTurnTimer();
+                
+                // valida carta de inicio
+                Card card = game.getTableDeck().peek();
+                while (card.getType() != null && card.getType().getValue() >= 3) {
+
+                    if (card.getType() == TypeCard.M2) {
+                        Player op = game.getOpponentByPlayerId(newPlayer.getId());
+                        compra(op.getId());
+                        compra(op.getId());
+                        break;
+                    }
+
+                    if (card.getType() == TypeCard.Cg || card.getType() == TypeCard.C4) {
+                        card = game.getDeck().pop();
+                        game.getTableDeck().push(card);
+                    }
+
+                    card = game.getTableDeck().peek();
+                }
+
             }
                 
-            
             playersPool.add(newPlayer);
             
             return newPlayer.getId();
@@ -244,17 +240,20 @@ public class UnoWS implements IUno{
     }
 
     @Override
-    public int encerraPartida(int playerId) throws RemoteException {
-        ArrayList<Player> playersFromGame = this.getGameByPlayerId(playerId).getPlayers();
-
-        for (Player playerFromGame : playersFromGame) {
-            for (int i = 0; i < this.playersPool.size(); i += 1) {
-                if (this.playersPool.get(i).getId() == playerFromGame.getId()) 
-                    this.playersPool.remove(i);
-                
+    public synchronized int encerraPartida(int playerId) throws RemoteException {
+        Game game = this.getGameByPlayerId(playerId);
+        
+        for (int i = 0; i < this.playersPool.size(); i += 1) {
+            if (this.playersPool.get(i).getId() == playerId) { 
+                this.playersPool.remove(i);
+                game.removePlayer(playerId);
+                break;
             }
         }
-
+        
+        // remove partida quando 2 player encerram
+        removeClosedGames();
+            
         return 0;
     }
 
@@ -280,16 +279,14 @@ public class UnoWS implements IUno{
                 return 0;
             
 
-            // decide qual jogador comeca jogando.
+            // decide qual jogador comeca jogando.            
             if (game != null && game.getPlayers().size() == 2) {
                 if (game.getPlayerByPlayerId(playerId).getId() < game.getOpponentByPlayerId(playerId).getId()) {
-                    game.getPlayerByPlayerId(playerId).setIsMyTurn(true);
                     return 1;
                 }
-                game.getOpponentByPlayerId(playerId).setIsMyTurn(true);
                 return 2;
             }
-
+            
             return 0;
 
         } catch (Exception e) {
@@ -336,7 +333,7 @@ public class UnoWS implements IUno{
             }
 
             // vencedor
-            if (this.obtemNumCartas(playerId) == 0) {
+            if (game.getPlayerByPlayerId(playerId).getDeck().isEmpty()) {
                 game.setClosedTimer(System.currentTimeMillis());
                 game.setStatus(GameStatus.CLOSED);
                 return 2;
@@ -352,7 +349,13 @@ public class UnoWS implements IUno{
                 game.setStatus(GameStatus.CLOSED);
                 return 4;
             }
-
+            
+            // se carta pula, inverte ou +2. Troca jogador inicio
+            Card card = game.getTableDeck().peek();
+            if (card.getType() != null && card.getType().getValue() < 4) {
+                game.changeTurnPlayers();
+            }
+            
             Player opponent = game.getOpponentByPlayerId(playerId);
             Player currentPlayer = game.getPlayerByPlayerId(playerId);
 
@@ -418,13 +421,21 @@ public class UnoWS implements IUno{
                 deckStr += Helper.cardToString(deck.get(i)) + "|";
                 
         }
-        return deckStr;
+        
+        if (deckStr.length() > 0)
+            return deckStr.substring(0, deckStr.length()-1).replaceAll("M2", "+2");
+
+        return deckStr.replaceAll("M2", "+2");
     }
 
     @Override
     public int obtemCorAtiva(int playerId) throws RemoteException {
         Game game = this.getGameByPlayerId(playerId);
-        return game.getActiveColor();
+        try {
+            return game.getActiveColor();
+        } catch (NullPointerException e) {
+            return -1;
+        }
     }
 
     @Override
@@ -441,9 +452,9 @@ public class UnoWS implements IUno{
             return 1;
         }
 
-        if (game.getStatus() != GameStatus.CLOSED) {
-            return 3;
-        }
+//        if (game.getStatus() != GameStatus.CLOSED) {
+//            return 3;
+//        }
 
         return Helper.sumScore(player.getDeck());
     }
@@ -453,7 +464,7 @@ public class UnoWS implements IUno{
         Game game = this.getGameByPlayerId(playerId);
         Card card = game.getTableDeck().peek();
 
-        return Helper.cardToString(card);
+        return Helper.cardToString(card).replaceAll("M2", "+2");
     }
 
     @Override
@@ -464,7 +475,18 @@ public class UnoWS implements IUno{
 
         try {
             Game game = this.getGameByPlayerId(playerId);
+            
+            if (game.getStatus() != GameStatus.RUNNING)
+                return -2;
+            
             Player player = game.getPlayerByPlayerId(playerId);
+            
+            if (player == null)
+                return -1;
+            
+            if (!player.getIsMyTurn())
+                return -3;
+            
             Card card = game.getDeck().pop();
             Stack<Card> playerDeck = player.getDeck();
             playerDeck.push(card);
@@ -472,7 +494,7 @@ public class UnoWS implements IUno{
             
             // troca a vez apos compra de carta
             game.setTurnPlayer();
-            return 0;
+            return 1;
         } catch (Exception e) {
             return -1;
         }
@@ -492,9 +514,9 @@ public class UnoWS implements IUno{
             return 1;
         }
 
-        if (game.getStatus() != GameStatus.CLOSED) {
-            return 3;
-        }
+//        if (game.getStatus() != GameStatus.CLOSED) {
+//            return 3;
+//        }
 
         return Helper.sumScore(player.getDeck());
     }
@@ -519,32 +541,28 @@ public class UnoWS implements IUno{
             if (game.getPlayerByPlayerId(playerId) == null || game.getOpponentByPlayerId(playerId) == null) {
                 return -1;
             }
-
-            // parametros invalidos - indice do baralho
-            if (index < -1 || index > this.obtemNumCartas(playerId)) {
-                return -3;
-            }
-
-            // parametros invalidos - cor inexistente
-            if (cardColor < -2 || cardColor > 3) {
-                return -3;
-            }
-
+            
             // nao é vez do jogador ainda
             if (!game.getPlayerByPlayerId(playerId).getIsMyTurn()) {
-                return -4;
+                return -3;
             }
 
-            Card tableCard = Helper.stringToCard(this.obtemCartaMesa(playerId));
+            // parametros invalidos - indice do baralho
+            if (index <= -1 || index >= this.obtemNumCartas(playerId)) {
+                return -4;
+            }            
+
+            Card tableCard = game.getTableDeck().peek(); //Helper.stringToCard(this.obtemCartaMesa(playerId));
             Card playedCard = this.getGameByPlayerId(playerId).getPlayerByPlayerId(playerId).getDeck().get(index);
+            
+            // parametros invalidos - cor inexistente
+            if (playedCard.getType() == TypeCard.Cg || playedCard.getType() == TypeCard.C4) {
+                if (cardColor < 0 || cardColor > 3)
+                    return -4;
+            }
 
             Player player = null;
-
-            // seta cor ativa
-            if (cardColor != -1) {
-                game.setActiveColor(cardColor);
-            }
-
+           
             switch (this.match(playedCard, tableCard, playerId)) {
                 // erro
                 case -1:
@@ -554,11 +572,13 @@ public class UnoWS implements IUno{
                     this.playCardFull(playerId, index, playedCard);
                     this.getGameByPlayerId(playerId).setTurnPlayer();
                     game.setActiveColor(-1);
+                    game.setChanged(true);
                     break;
                 // pular e inverter
                 case 1:
                     this.playCardFull(playerId, index, playedCard);
                     game.setActiveColor(-1);
+                    game.setChanged(true);
                     break;
                 case 2:
                     // +2
@@ -566,23 +586,29 @@ public class UnoWS implements IUno{
                     this.playCardFull(playerId, index, playedCard);
 
                     player = game.getOpponentByPlayerId(playerId);
-                    this.compraCarta(player.getId());
-                    this.compraCarta(player.getId());
+                    compra(player.getId());
+                    compra(player.getId());
+                    game.setChanged(true);
                     game.setActiveColor(-1);
                     break;
                 case 3:
                     // coringa
                     this.playCardFull(playerId, index, playedCard);
                     this.getGameByPlayerId(playerId).setTurnPlayer();
+                    game.setActiveColor(cardColor);
+                    game.setChanged(true);
                     break;
                 case 4:
                     // coringa +4
+                    this.playCardFull(playerId, index, playedCard);
                     player = game.getOpponentByPlayerId(playerId);
-                    this.compraCarta(player.getId());
-                    this.compraCarta(player.getId());
-                    this.compraCarta(player.getId());
-                    this.compraCarta(player.getId());
+                    compra(player.getId());
+                    compra(player.getId());
+                    compra(player.getId());
+                    compra(player.getId());
                     this.getGameByPlayerId(playerId).setTurnPlayer();
+                    game.setActiveColor(cardColor);
+                    game.setChanged(true);
                     break;
 
                 default:
@@ -594,6 +620,19 @@ public class UnoWS implements IUno{
         }
         
         return 1;
+
+    }
+    
+    private void compra(int playerId) {
+        try {
+            Game game = this.getGameByPlayerId(playerId);
+            Player player = game.getPlayerByPlayerId(playerId);
+            Card card = game.getDeck().pop();
+            Stack<Card> playerDeck = player.getDeck();
+            playerDeck.push(card);
+            player.setDeck(playerDeck);
+        } catch (Exception e) {
+        }
 
     }
 

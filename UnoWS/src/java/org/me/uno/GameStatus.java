@@ -11,7 +11,7 @@ package org.me.uno;
  */
 
 public enum GameStatus {
-    WAITING, RUNNING, CLOSED, TIMEOUT;
+    WAITING, RUNNING, CLOSED, TIMEOUT, EXCLUDED;
 
 }
 
